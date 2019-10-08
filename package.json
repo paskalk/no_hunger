@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/paskalk/no_hunger/issues"
   },
-  "homepage": "https://github.com/paskalk/no_hunger#readme"
+  "homepage": "https://github.com/paskalk/no_hunger#readme",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "mssql": "^5.1.0"
+  }
 }
