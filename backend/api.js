@@ -9,6 +9,17 @@ const port = process.env.PORT || 3030;
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(cors());
+app.options('*', cors());
+
+app.get("*", function(req, res){
+    // res.header("Access-Control-Allow-Headers", '*');
+    // res.header("Access-Control-Allow-Methods", "*");
+    // res.header("Access-Control-Allow-Origin", "*");
+    // console.log('????????????');
+});
+
+
 app.get("/user", function(req, res){
     var query = "select * from tbusers";
     executePostsgresQuery(query, res);
@@ -20,52 +31,33 @@ app.get("/api/user/:email/:password", function(req, res){
     executePostsgresQuery(query, res);
 });
 
-app.post("/api/userCreate", cors(), function(req, res){
-    // app.options('/the/resource/you/request',);
-    // const text = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *'
-    
-    // const values = ['brianc', 'brian.m.carlson@gmail.com']
-
-    // console.log(req);
-    // console.log( req.body);
-    // console.log( req.body.name);
-
-    // res.header("Access-Control-Allow-Origin", "*");
-    // res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-
+app.post("/api/userCreate", function(req, res){
     var query = {
-        text: 'Insert into tbusers (username,email,password) VALUES($1, $2, $3)',
-        values: ['ninja','user', 'user@email.com'],
+        text: 'Insert into tbusers (username,email,password,fullname) VALUES($1, $2, $3, $4)',
+        values: [ req.body['email'].substring(0, req.body['email'].lastIndexOf("@")), req.body['email'], req.body['password'], req.body['name']],
     }
     insertToDatabase(query, res);
-    //  res.header("Access-Control-Allow-Origin","*");
-    console.log(res);
+});
+
+//New donation entry to database
+app.post("/api/addDonation", function(req, res){
+
+});
+
+//Update an existing donation eg if someone accepts the donation
+app.post("/api/updateDonation", function(req, res){
+
 });
 
 var insertToDatabase = function(req, res){
-
-    // promise
-    // res.header("Access-Control-Allow-Origin", "*");
     conn.query(req['text'], req['values'])
     .then(results => {
-        // console.log(res);
-        console.log('RES--------------------------');
-        // console.log(res.rowCount);
-        // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
-        
-        // return results.rowCount;
-        res.header("Access-Control-Allow-Origin", "*");
-        res.end(JSON.stringify(results));
+        res.end(JSON.stringify(results.rowCount));
     })
     .catch(e => console.error(e.stack))
-
-    // 
-    // console.log(res);
 }
 
-var executePostsgresQuery  = function(req, res){ 
-
+var executePostsgresQuery  = function(req, res){
     conn.query(req, (error, results) => {
         if (error) {
             console.log(error);
@@ -73,7 +65,6 @@ var executePostsgresQuery  = function(req, res){
         res.header("Access-Control-Allow-Origin", "*");
         return res.json(results.rows);
     })
-
 }
 
 app.listen(port); 
