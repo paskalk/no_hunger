@@ -2,7 +2,7 @@ var app = require('express')();
 const sql = require('mssql');
 require('dotenv').config({ path: '../.env' });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3030;
 
 const pool = new sql.ConnectionPool({
     user: process.env.SQL_USER,
