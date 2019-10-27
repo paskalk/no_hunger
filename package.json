@@ -1,11 +1,11 @@
 {
-  "name": "no_hunger",
+  "name": "foodshare",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd backend && nodemon api.js"
+    "server": "cd backend && npm start",
+    "client": "cd frontend && npm start"
   },
   "repository": {
     "type": "git",
@@ -17,12 +17,5 @@
   "bugs": {
     "url": "https://github.com/paskalk/no_hunger/issues"
   },
-  "homepage": "https://github.com/paskalk/no_hunger#readme",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^8.1.0",
-    "express": "^4.17.1",
-    "mssql": "^5.1.0",
-    "pg": "^7.12.1"
-  }
+  "homepage": "https://github.com/paskalk/no_hunger#readme"
 }

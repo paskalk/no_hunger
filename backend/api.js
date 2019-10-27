@@ -12,12 +12,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
-app.get("*", function(req, res){
-    // res.header("Access-Control-Allow-Headers", '*');
-    // res.header("Access-Control-Allow-Methods", "*");
-    // res.header("Access-Control-Allow-Origin", "*");
-    // console.log('????????????');
-});
+// app.get("*", function(req, res){
+//     // res.header("Access-Control-Allow-Headers", '*');
+//     // res.header("Access-Control-Allow-Methods", "*");
+//     // res.header("Access-Control-Allow-Origin", "*");
+//     // console.log('????????????');
+// });
 
 
 app.get("/user", function(req, res){
