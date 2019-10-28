@@ -41,12 +41,21 @@ app.post("/api/userCreate", function(req, res){
 
 //New donation entry to database
 app.post("/api/addDonation", function(req, res){
-
+    var query = {
+        text: 'Insert into tbdonations (foodtype,quantity,location,locationdescription,donatedby) VALUES($1, $2, $3, $4, $5)',
+        values: [  req.body['foodtype'], req.body['quantity'],  req.body['location'], req.body['locationdescription'], req.body['donatedby']],
+    }
+    insertToDatabase(query, res);
 });
 
 //Update an existing donation eg if someone accepts the donation
 app.post("/api/updateDonation", function(req, res){
 
+});
+
+app.get("/api/getDonations/:foodtype", function(req, res){
+    var query = `select * from tbdonations `;
+    executePostsgresQuery(query, res);
 });
 
 var insertToDatabase = function(req, res){
