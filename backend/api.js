@@ -33,9 +33,20 @@ app.get("/api/user/:email/:password", function(req, res){
 
 app.post("/api/userCreate", function(req, res){
     var query = {
-        text: 'Insert into tbusers (username,email,password,fullname) VALUES($1, $2, $3, $4)',
-        values: [ req.body['email'].substring(0, req.body['email'].lastIndexOf("@")), req.body['email'], req.body['password'], req.body['name']],
+        text: 'Insert into tbusers (email,password,fullname,trials,locked,active) VALUES($1, $2, $3, $4, $5, $6)',
+        values: [
+            req.body['email'], 
+            req.body['password'], 
+            req.body['name'],
+            // req.body['location'],
+            // req.body['locationdescription'],
+            // req.body['mobilephone'],
+            0,
+            0,
+            1
+        ],
     }
+    // console.log(query);
     insertToDatabase(query, res);
 });
 
@@ -63,7 +74,11 @@ var insertToDatabase = function(req, res){
     .then(results => {
         res.end(JSON.stringify(results.rowCount));
     })
-    .catch(e => console.error(e.stack))
+    .catch(e => {
+        console.error(e.stack);
+        res.end();
+        // res.end(JSON.stringify(e.detail));
+    })
 }
 
 var executePostsgresQuery  = function(req, res){
