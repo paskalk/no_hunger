@@ -57,6 +57,7 @@ function Layout(props) {
               <Route path="/app/donorhistory" component={DonorHistory} />
               {/* <Route path="/app/profile" component={Profile} /> */}
               <Route path="/app/users" component={UserManagement} />
+              <Route path="/app/stats" component={UserManagement} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
               <Route

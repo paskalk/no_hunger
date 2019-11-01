@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import {
 //   withGoogleMap,
 //   withScriptjs,
@@ -40,8 +40,10 @@ export default function AddDonation() {
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
-  React.useEffect(() => {
+
+  useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
+    
   }, []);
   getLocation();
 
@@ -176,13 +178,9 @@ function getCoordinates(position){
 }
 
 function reverseGeocodeCoordinates(){
-    var bing_key =  "AIzaSyD85zfY1L5I83uJfVEQfugiESX99w3pXZM"; 
 
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=false&key=${bing_key}`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=false&key=${process.env.REACT_APP_MAP_KEY}`)
     .then(response => response.json())
-    // .then(response => this.setState({
-    //     userAddress: response.results[0]['formatted_address']
-    // }))
     .then(response => setUserAddress(response.results[0]['formatted_address']))
     .catch(error => console.log(error))
 }

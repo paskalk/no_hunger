@@ -42,7 +42,7 @@ export default function DashboardOptions(props) {
       history  = true;
       // stats = true;
       profile = true;
-      // stats = true;
+      stats = true;
       user=true;
       donations=true;
       break;
