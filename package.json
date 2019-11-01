@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "cd backend && npm start",
-    "client": "cd frontend && npm start"
+    "client": "cd frontend && npm start",
+    "heroku": "concurrently \"cd frontend && npm start\" \"cd backend && npm start\" "
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/paskalk/no_hunger/issues"
   },
-  "homepage": "https://github.com/paskalk/no_hunger#readme"
+  "homepage": "https://github.com/paskalk/no_hunger#readme",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
 }
