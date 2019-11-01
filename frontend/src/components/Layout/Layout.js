@@ -28,6 +28,7 @@ import AcceptReject from "../../pages/donations/AcceptReject";
 
 import DonorHistory from "../../pages/datatables/DonorHistory.js";
 import UserManagement from "../../pages/datatables/UserManagement.js";
+import UserProfile from "../../pages/datatables/UserProfile.js";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -56,6 +57,7 @@ function Layout(props) {
               <Route path="/app/accept-reject" component={AcceptReject} />
               <Route path="/app/donorhistory" component={DonorHistory} />
               <Route path="/app/users" component={UserManagement} />
+              <Route path="/app/users-profile" component={UserProfile} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
               <Route
