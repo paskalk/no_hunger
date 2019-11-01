@@ -8,6 +8,7 @@ function userReducer(state, action) {
     case "LOGIN_SUCCESS":
       return { ...state, isAuthenticated: true };
     case "LOGIN_FAILURE":
+    case "ACCOUNT_CREATED":
     case "SIGN_OUT_SUCCESS":
       return { ...state, isAuthenticated: false };
     default: {
@@ -46,7 +47,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, registerUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, registerUser, addDonationEntry, updateDonation, updateUser, signOut };
 
 // ###########################################################
 
@@ -56,27 +57,41 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 
   // var userInfo = getDataFromAPI(`/user/${login}/${password}`);
 
-  fetch(`http://localhost:3030/user/${login}/${password}`)
+  // localStorage.setItem("id_token", "1");
+  // localStorage.setItem("namex", "Fake Ninja");
+  // window.sessionStorage.setItem("names", "Long ninja");
+  console.log("sending request");
+
+  fetch(`http://localhost:3030/api/user/${login}/${password}`)
   .then(response => response.json())
   .then(function(response){
     console.log(response[0]);
 
-    if (response[0]){
-      
-      console.log(response[0]["Email"]);
-      
-      console.log("logging in " + login + " --" + password );
-  
-      
+    if (response[0]){      
+        //Too many trials
+        if (response[0]['trials'] > 3){
+          dispatch({ type: "LOGIN_FAILURE" });
+          setError(true);
+          setIsLoading(false);
+        }
+
         localStorage.setItem("id_token", "1");
+        localStorage.setItem("fullname", response[0]['fullname']);
+        localStorage.setItem("email", response[0]['email']);
+        localStorage.setItem("mobilephone", response[0]['mobilephone']);
+        localStorage.setItem("usergroup", response[0]['usergroup']);
+        localStorage.setItem("userid", response[0]['userid']);
+        localStorage.setItem("location", response[0]['location']);
         dispatch({ type: "LOGIN_SUCCESS" });
         setError(null);
         setIsLoading(false);
   
         history.push("/app/dashboard");
         
-      
     } else {
+      //Run a post to db and update the trials
+      //trials = trials +1 && Locked == true if Trials > 3
+
       dispatch({ type: "LOGIN_FAILURE" });
       setError(true);
       setIsLoading(false);
@@ -90,15 +105,11 @@ function registerUser(dispatch, login, password, name, history, setIsLoading, se
   setError(false);
   setIsLoading(true);
 
-  // var userInfo = getDataFromAPI(`/user/${login}/${password}`);
-
   fetch('http://localhost:3030/api/userCreate',{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      // 'Access-Control-Allow-Origin' : '*'
-      // 'Content-Type': 'x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       email: login,
@@ -109,46 +120,164 @@ function registerUser(dispatch, login, password, name, history, setIsLoading, se
   })
   .then(response => response.json())
   .then(function(response){
-    console.log(response[0]);
+    console.log(response);
 
-    if (response[0]){
-      
-        // console.log(response[0]["Email"]);
-      
-        localStorage.setItem("id_token", "1");
-        dispatch({ type: "LOGIN_SUCCESS" });
-        setError(null);
-        setIsLoading(false);
-  
-        history.push("/app/dashboard");
-        
-    } else {
-      dispatch({ type: "LOGIN_FAILURE" });
-      setError(true);
-      setIsLoading(false);
-    }
+    dispatch({ type: "ACCOUNT_CREATED" });
+    setError(null);
+    setIsLoading(false);
+
   })
   .catch(err => console.error(err))  
 
-
-
 }
 
-function  getDataFromAPI(specificPath) {
-    var userInfo;
-    userInfo =  fetch(`http://localhost:3030${specificPath}`)
-    .then(response => response.json())
-    .then(function(response){
-      console.log("Maybe?");
-      userInfo = response;
-          console.log(userInfo);
+function addDonationEntry(weight, foodtype, location, latitude, longitude) {
+  // console.log("Trying to Add Donation from user context");
+
+  fetch('http://localhost:3030/api/addDonation',{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      foodtype: foodtype,
+      quantity: weight,
+      locationdescription: location,
+      donatedby: localStorage.getItem("userid"),
+      location: (latitude+","+longitude)
     })
-    .catch(err => console.error(err))
-    return userInfo;
+  })
+  .then(response => response.json())
+  .then(function(response){
+    // console.log("Inserted to donations");
+    
+  })
+  .catch(err => console.error(err))  
+
 }
+
+function updateDonation(rowData, newValue, toUpdate) {
+ console.log(newValue);
+  
+  var foodtype = rowData[2];
+  var status = rowData[4];
+  var deleted = rowData[5];
+
+  switch (toUpdate){
+    case 'status':
+      status = newValue;
+      break;
+    case 'deleted':
+      deleted = newValue === "Yes" ? 1 : 0;
+      break;
+    case 'foodtype':
+      foodtype = newValue;
+      break;
+    default:
+      break;
+  }
+
+  fetch('http://localhost:3030/api/updateDonation',{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      donationid: rowData[0],
+      foodtype: foodtype,
+      status: status,
+      deleted: deleted,
+      
+      // quantity: '',
+      // locationdescription: '',
+      // donatedby: '',  
+      // location: ''
+    })
+  })
+  .then(response => response.json())
+  .then(function(response){
+    console.log("Updated donations");
+    
+  })
+  .catch(err => console.error(err))  
+
+}
+
+function updateUser(rowData, newValue, toUpdate) {
+  console.log(newValue);
+  console.log(rowData);
+  var usergroup = rowData[2];
+  var locked = rowData[7];
+  var active = rowData[8];
+  var trials = rowData[9];
+ 
+   switch (toUpdate){
+     case 'usergroup':
+      usergroup = newValue;
+       break;
+     case 'active':
+      active = newValue == "Yes" ? 1 : 0;
+       break;
+     case 'locked':
+      locked = newValue === "Yes" ? 1 : 0;
+       break;
+      case 'trials':
+       trials = newValue;// === "Yes" ? 1 : 0;
+        break;
+     default:
+       break;
+   }
+ 
+   fetch('http://localhost:3030/api/updateUser',{
+     method: 'POST',
+     headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({
+       userid: rowData[0],
+       modifiedby: localStorage.getItem("userid"),
+       usergroup: usergroup,
+       active: active,
+       locked: locked,
+       trials: trials,
+       
+       // quantity: '',
+       // locationdescription: '',
+       // donatedby: '',  
+       // location: ''
+     })
+   })
+   .then(response => response.json())
+   .then(function(response){
+     console.log("Updated users");
+     
+   })
+   .catch(err => console.error(err))  
+ 
+ }
+
+
+// function  getDataFromAPI(specificPath) {
+//     var userInfo;
+//     userInfo =  fetch(`http://localhost:3030${specificPath}`)
+//     .then(response => response.json())
+//     .then(function(response){
+//       console.log("Maybe?");
+//       userInfo = response;
+//           console.log(userInfo);
+//     })
+//     .catch(err => console.error(err))
+//     return userInfo;
+// }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("id_token");
+  window.sessionStorage.clear();
+  localStorage.clear();
+
+  // localStorage.removeItem("id_token");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }

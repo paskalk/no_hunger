@@ -19,7 +19,7 @@ import {
 import Widget from "../../components/Widget/Widget";
 import ApexLineChart from "./components/ApexLineChart";
 import ApexHeatmap from "./components/ApexHeatmap";
-import PageTitle from "../../components/PageTitle/PageTitle";
+// import PageTitle from "../../components/PageTitle/PageTitle";
 
 const lineChartData = [
   {
@@ -81,7 +81,7 @@ export default function Charts(props) {
 
   return (
     <>
-      <PageTitle title="Charts Page - Data Display" button="Latest Reports" />
+      {/* <PageTitle title="Charts Page - Data Display" button="Latest Reports" /> */}
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Widget title="Apex Line Chart" upperTitle noBodyPadding>

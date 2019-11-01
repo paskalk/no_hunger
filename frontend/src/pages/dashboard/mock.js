@@ -178,5 +178,33 @@ export default {
       city: "Hanoverton",
       status: "Sent"
     }
+  ],
+  donations: [
+    {
+      "donationid": "9",
+      "foodtype": "Vegetarian",
+      "quantity": 50,
+      "dateadded": "2019-10-29T23:00:00.000Z",
+      "datereceived": null,
+      "deleted": false,
+      "location": "56.0584684,14.1523709",
+      "donatedby": 52,
+      "receivedby": null,
+      "status": "Available",
+      "locationdescription": "Vemmenhögsgatan 8, 291 37 Kristianstad, Sweden"
+    },
+    {
+      "donationid": "8",
+      "foodtype": "Mixed",
+      "quantity": 50000,
+      "dateadded": "2019-10-29T23:00:00.000Z",
+      "datereceived": null,
+      "deleted": false,
+      "location": "56.0474136,14.146985",
+      "donatedby": 52,
+      "receivedby": null,
+      "status": "Collected",
+      "locationdescription": "Sektionen för Hälsa och Samhälle, Expeditio, 291 39 Kristianstad, Sweden"
+    }
   ]
 };

@@ -10,14 +10,14 @@ import {
   Fade,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import classnames from "classnames";
+// import classnames from "classnames";
 
 // styles
 import useStyles from "./styles";
 
 // logo
 import logo from "./logo.svg";
-import google from "../../images/google.svg";
+// import google from "../../images/google.svg";
 
 // context
 import { useUserDispatch, loginUser, registerUser } from "../../context/UserContext";
@@ -43,7 +43,7 @@ function Login(props) {
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
         <img src={logo} alt="logo" className={classes.logotypeImage} />
-        <Typography className={classes.logotypeText}>Bla bla bla</Typography>
+        <Typography className={classes.logotypeText}>FoodShare</Typography>
       </div>
       <div className={classes.formContainer}>
         <div className={classes.form}>
@@ -248,9 +248,9 @@ function Login(props) {
             </React.Fragment>
           )}
         </div>
-        <Typography color="primary" className={classes.copyright}>
-          {/* © 2014-2019 Flatlogic, LLC. All rights reserved. */}
-        </Typography>
+        {/* <Typography color="primary" className={classes.copyright}>
+          © 2014-2019 Flatlogic, LLC. All rights reserved.
+        </Typography> */}
       </div>
     </Grid>
   );

@@ -10,6 +10,7 @@ import {
   LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
+  ExposurePlus1 as ExposurePlus1Icon 
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -32,10 +33,16 @@ import {
 const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
-    id: 1,
+    id: 15,
     label: "Typography",
     link: "/app/typography",
     icon: <TypographyIcon />,
+  },
+  {
+    id: 1,
+    label: "Add Donation",
+    link: "/app/donations",
+    icon: <ExposurePlus1Icon />,
   },
   { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
   {

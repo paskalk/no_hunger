@@ -23,6 +23,12 @@ import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 
+import AddDonation from "../../pages/donations";
+import AcceptReject from "../../pages/donations/AcceptReject";
+
+import DonorHistory from "../../pages/datatables/DonorHistory.js";
+import UserManagement from "../../pages/datatables/UserManagement.js";
+
 // context
 import { useLayoutState } from "../../context/LayoutContext";
 
@@ -36,7 +42,7 @@ function Layout(props) {
     <div className={classes.root}>
         <>
           <Header history={props.history} />
-          <Sidebar />
+          {/* <Sidebar /> */}
           <div
             className={classnames(classes.content, {
               [classes.contentShift]: layoutState.isSidebarOpened,
@@ -46,6 +52,10 @@ function Layout(props) {
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/typography" component={Typography} />
+              <Route path="/app/donations" component={AddDonation} />
+              <Route path="/app/accept-reject" component={AcceptReject} />
+              <Route path="/app/donorhistory" component={DonorHistory} />
+              <Route path="/app/users" component={UserManagement} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
               <Route
