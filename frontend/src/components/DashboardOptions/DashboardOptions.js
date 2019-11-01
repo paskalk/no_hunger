@@ -5,7 +5,7 @@ import { Button, Grid } from "@material-ui/core";
 import useStyles from "./styles";
 
 // components
-// import { Typography } from "../Wrappers";
+import { Typography } from "../Wrappers";
 // import { useUserDispatch } from "../../context/UserContext";
 
 //Former PageTitle
@@ -37,14 +37,14 @@ export default function DashboardOptions(props) {
       break;
       
     case "super":
-      // addDonation = true
-      // acceptDonation = true;
+      addDonation = true
+      acceptDonation = true;
       history  = true;
       // stats = true;
-      // profile = true;
+      profile = true;
       // stats = true;
       user=true;
-      // donations=true;
+      donations=true;
       break;
 
     default:
@@ -69,7 +69,9 @@ export default function DashboardOptions(props) {
             href="#/app/donations"
             
           >
-            Donate
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              Donate
+            </Typography>
           </Button>
         </Grid>
       )}
@@ -82,9 +84,11 @@ export default function DashboardOptions(props) {
             variant="outlined"
             size="large"
             color="primary"
-            href="#/app/donations"
+            href="#/app/accept-reject"
           >
-            Accept Donation
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              Find Food
+            </Typography>
           </Button>
         </Grid>
       )}      
@@ -99,13 +103,16 @@ export default function DashboardOptions(props) {
             color="primary"
             href="#/app/donorhistory"
           >
-            History
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              History
+            </Typography>
           </Button>
         </Grid>
       )}
       
-      <Grid item xs={12} md={3} lg={3}>
-        {stats && (
+      
+      {stats && (
+        <Grid item xs={12} md={3} lg={3}>
           <Button
             className={classes.button}
             // classes={{ root: classes.button }}
@@ -114,24 +121,31 @@ export default function DashboardOptions(props) {
             color="primary"
             href="#/app/donations"
           >
-            Statistics
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              Statistics
+            </Typography>
           </Button>
-        )}
-      </Grid>
-      <Grid item xs={12} md={3} lg={3}>
-        {profile && (
+        </Grid>
+      )}
+      
+      
+      {profile && (
+        <Grid item xs={12} md={3} lg={3}>
           <Button
             className={classes.button}
             // classes={{ root: classes.button }}
             variant="outlined"
             size="large"
             color="primary"
-            href="#/app/donations"
+            href="#/app/profile"
           >
-            Profile
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              Profile
+            </Typography>
           </Button>
-        )}
-      </Grid>
+        </Grid>
+      )}
+      
       
       {user && (
         <Grid item xs={12} md={3} lg={3}>
@@ -143,7 +157,9 @@ export default function DashboardOptions(props) {
             color="primary"
             href="#/app/users"
           >
-            User
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              Users
+            </Typography>
           </Button>
         </Grid>
       )}
@@ -159,12 +175,14 @@ export default function DashboardOptions(props) {
             color="primary"
             href="#/app/donorhistory"
           >
-            Donations
+            <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
+              Donations
+            </Typography>
           </Button>
         </Grid>
       )}
       
     </Grid>
-    </div>
+  </div>
   );
 }

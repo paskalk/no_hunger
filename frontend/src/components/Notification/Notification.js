@@ -5,12 +5,13 @@ import {
   ThumbUp as ThumbUpIcon,
   ShoppingCart as ShoppingCartIcon,
   LocalOffer as TicketIcon,
-  BusinessCenter as DeliveredIcon,
+  
   SmsFailed as FeedbackIcon,
   DiscFull as DiscIcon,
   Email as MessageIcon,
-  Report as ReportIcon,
-  Error as DefenceIcon,
+  SentimentVerySatisfied as SentimentVerySatisfiedIcon,
+  SentimentSatisfied as SentimentSatisfiedIcon,
+  SentimentVeryDissatisfied as SentimentVeryDissatisfiedIcon,
   AccountBox as CustomerIcon,
   Done as ShippedIcon,
   Publish as UploadIcon,
@@ -18,6 +19,8 @@ import {
 import { useTheme } from "@material-ui/styles";
 import classnames from "classnames";
 import tinycolor from "tinycolor2";
+
+
 
 // styles
 import useStyles from "./styles";
@@ -34,9 +37,9 @@ const typesIcons = {
   feedback: <FeedbackIcon />,
   customer: <CustomerIcon />,
   shipped: <ShippedIcon />,
-  delivered: <DeliveredIcon />,
-  defence: <DefenceIcon />,
-  report: <ReportIcon />,
+  goodinfo: <SentimentVerySatisfiedIcon />,
+  badinfo: <SentimentVeryDissatisfiedIcon />,
+  averinfo: <SentimentSatisfiedIcon />,
   upload: <UploadIcon />,
   disc: <DiscIcon />,
 };
@@ -44,6 +47,20 @@ const typesIcons = {
 export default function Notification({ variant, ...props }) {
   var classes = useStyles();
   var theme = useTheme();
+
+  var colour = "success";
+  switch (props.type){
+    case 'goodinfo':
+      colour = "success";
+      break;
+    case 'badinfo':
+      colour = "error";
+      break;
+    default:
+      break;
+  }
+
+
 
   const icon = getIconByType(props.type);
   const iconWithStyles = React.cloneElement(icon, {
@@ -53,8 +70,8 @@ export default function Notification({ variant, ...props }) {
     style: {
       color:
         variant !== "contained" &&
-        theme.palette[props.color] &&
-        theme.palette[props.color].main,
+        theme.palette[colour] &&
+        theme.palette[colour].main,
     },
   });
 
@@ -67,8 +84,8 @@ export default function Notification({ variant, ...props }) {
       style={{
         backgroundColor:
           variant === "contained" &&
-          theme.palette[props.color] &&
-          theme.palette[props.color].main,
+          theme.palette[colour] &&
+          theme.palette[colour].main,
       }}
     >
       <div
@@ -79,8 +96,8 @@ export default function Notification({ variant, ...props }) {
         style={{
           backgroundColor:
             variant === "rounded" &&
-            theme.palette[props.color] &&
-            tinycolor(theme.palette[props.color].main)
+            theme.palette[colour] &&
+            tinycolor(theme.palette[colour].main)
               .setAlpha(0.15)
               .toRgbString(),
         }}
@@ -95,13 +112,15 @@ export default function Notification({ variant, ...props }) {
           variant={props.typographyVariant}
           size={variant !== "contained" && !props.typographyVariant && "md"}
         >
-          {props.message}
+          {/* {props.message} */}
+          {props.notificationmessage}
         </Typography>
         {props.extraButton && props.extraButtonClick && (
           <Button
             onClick={props.extraButtonClick}
             disableRipple
             className={classes.extraButton}
+            
           >
             {props.extraButton}
           </Button>

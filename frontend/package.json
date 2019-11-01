@@ -8,7 +8,6 @@
     "@material-ui/styles": "^4.3.0",
     "apexcharts": "^3.8.3",
     "classnames": "^2.2.6",
-    "dotenv": "^8.2.0",
     "font-awesome": "^4.7.0",
     "mui-datatables": "^2.12.4",
     "react": "^16.8.6",

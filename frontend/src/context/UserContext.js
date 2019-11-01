@@ -1,7 +1,13 @@
 import React from "react";
+// require('dotenv').config({ path: '../../../.env' });
 
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
+
+// console.log(process.env.REACT_APP_URL_PATH);
+// console.log(process.env);
+var urlpath = process.env.NODE_ENV == "development" ? process.env.REACT_APP_URL_PATH : "";
+console.log(urlpath);
 
 function userReducer(state, action) {
   switch (action.type) {
@@ -47,7 +53,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, registerUser, addDonationEntry, updateDonation, updateUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, registerUser, addDonationEntry, updateDonation, updateUser, signOut, updateNotificationReadStatus };
 
 // ###########################################################
 
@@ -62,7 +68,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
   // window.sessionStorage.setItem("names", "Long ninja");
   console.log("sending request");
 
-  fetch(`http://localhost:3030/api/user/${login}/${password}`)
+  fetch(`${urlpath}/api/user/${login}/${password}`)
   .then(response => response.json())
   .then(function(response){
     console.log(response[0]);
@@ -105,7 +111,7 @@ function registerUser(dispatch, login, password, name, history, setIsLoading, se
   setError(false);
   setIsLoading(true);
 
-  fetch('http://localhost:3030/api/userCreate',{
+  fetch(`${urlpath}/api/userCreate`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -114,8 +120,9 @@ function registerUser(dispatch, login, password, name, history, setIsLoading, se
     body: JSON.stringify({
       email: login,
       password: password,
-      username: login,
-      name: name
+      name: name,
+      usergroup: 'Donor',
+      location: 'Kristianstad'
     })
   })
   .then(response => response.json())
@@ -131,10 +138,31 @@ function registerUser(dispatch, login, password, name, history, setIsLoading, se
 
 }
 
+
+
+function updateNotificationReadStatus(notificationid){
+  fetch(`${urlpath}/api/updateNotification`,{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      notificationid: notificationid
+    })
+  })
+  .then(response => response.json())
+   .then(function(response){
+     console.log("Notification Read.");
+     
+   })
+   .catch(err => console.error(err)) 
+}
+
 function addDonationEntry(weight, foodtype, location, latitude, longitude) {
   // console.log("Trying to Add Donation from user context");
 
-  fetch('http://localhost:3030/api/addDonation',{
+  fetch(`${urlpath}/api/addDonation`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -178,7 +206,7 @@ function updateDonation(rowData, newValue, toUpdate) {
       break;
   }
 
-  fetch('http://localhost:3030/api/updateDonation',{
+  fetch(`${urlpath}/api/updateDonation`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -230,7 +258,7 @@ function updateUser(rowData, newValue, toUpdate) {
        break;
    }
  
-   fetch('http://localhost:3030/api/updateUser',{
+   fetch(`${urlpath}/api/updateUser`,{
      method: 'POST',
      headers: {
        'Accept': 'application/json',
@@ -262,7 +290,7 @@ function updateUser(rowData, newValue, toUpdate) {
 
 // function  getDataFromAPI(specificPath) {
 //     var userInfo;
-//     userInfo =  fetch(`http://localhost:3030${specificPath}`)
+//     userInfo =  fetch(`${urlpath}${specificPath}`)
 //     .then(response => response.json())
 //     .then(function(response){
 //       console.log("Maybe?");

@@ -19,6 +19,21 @@ app.options('*', cors());
 //     // console.log('????????????');
 // });
 
+//Pull all notifications
+app.get("/api/notifications/:userid", function(req, res){    
+    var query = `select * from tbnotifications where read = false and notificationto = '${req.params.userid}' limit 4`;
+    executePostsgresQuery(query, res);
+});
+
+//Mark notifications as read
+app.post("/api/updateNotification", function(req, res){
+    // console.log(req.body);
+    var query = {
+        text: 'Update tbnotifications set read = true, readon = $1  where notificationid =$2',
+        values: [new Date(), req.body['notificationid']],
+    }
+    insertToDatabase(query, res);
+});
 
 app.get("/api/users", function(req, res){
     var query = "select userid,fullname,usergroup, email, mobilephone, trials, createdon, modifiedby, modifiedon, location, locationdescription,case  when (locked = true) then 'Yes' else 'No' end as locked,case  when (active = true) then 'Yes' else 'No' end as active from tbusers ";

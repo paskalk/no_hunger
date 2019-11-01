@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Grid,
+  // Grid,
   // LinearProgress,
   // Select,
   // OutlinedInput,
@@ -25,12 +25,12 @@ import {
 import useStyles from "./styles";
 
 // components
-import mock from "./mock";
-import Widget from "../../components/Widget";
+// import mock from "./mock";
+// import Widget from "../../components/Widget";
 import DashboardOptions from "../../components/DashboardOptions";
 // import { Typography } from "../../components/Wrappers";
 // import Dot from "../../components/Sidebar/components/Dot";
-import Table from "./components/Table/Table";
+// import Table from "./components/Table/Table";
 // import BigStat from "./components/BigStat/BigStat";
 
 // const mainChartData = getMainChartData();
@@ -42,7 +42,7 @@ import Table from "./components/Table/Table";
 // ];
 
 export default function Dashboard(props) {
-  var classes = useStyles();
+  // var classes = useStyles();
   // var theme = useTheme();
 
   // local
@@ -52,10 +52,10 @@ export default function Dashboard(props) {
     <>
       <DashboardOptions 
         // title="Dashboard" 
-        userType="super"
+        userType= {localStorage.getItem("usergroup").toLowerCase()}
         button="Latest5 Reports" 
         />
-      <Grid container spacing={4}>
+      {/* <Grid container spacing={4}>
        
       
         <Grid item xs={12}>
@@ -68,7 +68,7 @@ export default function Dashboard(props) {
             <Table data={mock.table} />
           </Widget>
         </Grid>
-      </Grid>
+      </Grid> */}
     </>
   );
 }

@@ -14,8 +14,10 @@ export default makeStyles(theme => ({
     // flexGrow: 1
     // width: theme.spacing(30),
     width: '88%',
+    fontsize: '1.2em',
     height: theme.spacing(20),
     margin: theme.spacing(3),
+    border: '3px solid',
     // boxShadow: theme.customShadows.widget,
     // textTransform: "none",
     // "&:active": {

@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import MUIDataTable from "mui-datatables";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
@@ -16,7 +16,8 @@ class DonorHistory extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`http://localhost:3030/api/getDonations/${this.state.usergroup}/${this.state.userid}`)
+    var urlpath = process.env.NODE_ENV == "development" ? process.env.REACT_APP_URL_PATH : "";
+    fetch(`${urlpath}/api/getDonations/${this.state.usergroup}/${this.state.userid}`)
     .then(response => response.json())
     // .then(response => this.setState({donationData: response}))
     .then((response)  => {
