@@ -21,7 +21,7 @@ export default function TableComponent({ data }) {
     var keys = Object.keys(data[0]).map(i => i.toUpperCase());
     keys.shift(); // delete "id" key
 
-    const columnsToShow = [ 'foodtype', 'quantity', 'datereceived', 'donatedby', 'receivedby', 'status', 'action' ];
+    const columnsToShow = [ 'Food Type', 'Quantity', 'Date Received', 'Donated By', 'Received By', 'Status', 'Action' ];
 
     return (
         <Table className="mb-0">
