@@ -1,1 +1,1 @@
-web: npm run heroku_no_db
+web: npm run heroku_no_build
