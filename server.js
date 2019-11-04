@@ -1,5 +1,8 @@
-var app = require('express')();
+const express = require('express');
 const path = require('path');
+const app = express();
+// var app = require('express')();
+// const path = require('path');
 var conn = require("./backend/db");
 var bodyParser = require('body-parser');
 var cors = require('cors')
@@ -12,7 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
-
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', function(req, res) {
+    // app.use(express.static(__dirname + '/build'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 //Pull all notifications
 app.get("/api/notifications/:userid", function(req, res){    
@@ -218,9 +225,7 @@ app.get("/api/getChartData/:type/:usergroup/:userid/:datefrom/:dateto", function
     executePostsgresQuery(query, res);
 });
 
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+
 
 // console.log( getDate());
 // console.log( Date.parse('Sun Nov 03 2019 18:39:32 GMT+0100 (Central European Standard Time)'));
