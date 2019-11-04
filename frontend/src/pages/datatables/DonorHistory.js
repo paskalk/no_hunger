@@ -16,7 +16,7 @@ class DonorHistory extends React.Component {
   };
 
   componentDidMount() {
-    var urlpath = process.env.NODE_ENV == "development" ? process.env.REACT_APP_URL_PATH : "";
+    var urlpath = process.env.NODE_ENV === "development" ? process.env.REACT_APP_URL_PATH : "";
     fetch(`${urlpath}/api/getDonations/${this.state.usergroup}/${this.state.userid}`)
     .then(response => response.json())
     // .then(response => this.setState({donationData: response}))
@@ -258,12 +258,6 @@ class DonorHistory extends React.Component {
         
         
     ];
-    // console.log(this.state.donationData);
-
-    // const data = [
-    //   ["Robin Duncan", "Business Analyst", "Los Angeles", 20, "Opt1", false],
-    //   ["Mel Brooks", "Business Consultant", "Abilene", 37, "Opt2", true]      
-    // ];
 
     const options = {
       filter: true,

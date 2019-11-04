@@ -133,7 +133,7 @@ export default function AddDonation() {
             />
             <div className={classes.creatingButtonContainer}>
               <Button
-                onClick={() =>
+                onClick={() => {
                   addDonationEntry(
                     weightValue,
                     foodTypeValue,
@@ -141,7 +141,10 @@ export default function AddDonation() {
                     latitude,
                     longitude
                     
-                  )
+                  );
+                  setWeightValue('');
+                  setFoodTypeValue('');
+                }
                 }
                 variant="contained"
                 color="primary"

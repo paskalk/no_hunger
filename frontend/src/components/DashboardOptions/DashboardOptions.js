@@ -84,7 +84,7 @@ export default function DashboardOptions(props) {
             variant="outlined"
             size="large"
             color="primary"
-            href="#/app/accept-reject"
+            href="#/app/findfood"
           >
             <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
               Find Food
@@ -119,7 +119,7 @@ export default function DashboardOptions(props) {
             variant="outlined"
             size="large"
             color="primary"
-            href="#/app/donations"
+            href="#/app/stats"
           >
             <Typography variant="h4" color="primary"  className={classes.text} weight="medium" >
               Statistics

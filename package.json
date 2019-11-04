@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/paskalk/no_hunger#readme",
   "dependencies": {
-    "concurrently": "^5.0.0"
+    "@date-io/date-fns": "^1.3.11",
+    "@material-ui/pickers": "^3.2.7",
+    "concurrently": "^5.0.0",
+    "date-fns": "^2.0.0-beta.5"
   }
 }

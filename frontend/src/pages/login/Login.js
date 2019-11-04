@@ -21,6 +21,7 @@ import logo from "./logo.svg";
 
 // context
 import { useUserDispatch, loginUser, registerUser } from "../../context/UserContext";
+var sha3_256 = require('js-sha3').sha3_256;
 
 function Login(props) {
   var classes = useStyles();
@@ -118,7 +119,7 @@ function Login(props) {
                       loginUser(
                         userDispatch,
                         loginValue,
-                        passwordValue,
+                        sha3_256(passwordValue),
                         props.history,
                         setIsLoading,
                         setError,
@@ -136,7 +137,7 @@ function Login(props) {
                   size="large"
                   className={classes.forgetButton}
                 >
-                  Forget Password
+                  Forgot Password
                 </Button>
               </div>
             </React.Fragment>
@@ -208,7 +209,7 @@ function Login(props) {
                       registerUser(
                         userDispatch,
                         loginValue,
-                        passwordValue,
+                        sha3_256(passwordValue),
                         nameValue,
                         props.history,
                         setIsLoading,

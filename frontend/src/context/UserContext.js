@@ -6,7 +6,7 @@ var UserDispatchContext = React.createContext();
 
 // console.log(process.env.REACT_APP_URL_PATH);
 // console.log(process.env);
-var urlpath = process.env.NODE_ENV == "development" ? process.env.REACT_APP_URL_PATH : "";
+var urlpath = process.env.NODE_ENV === "development" ? process.env.REACT_APP_URL_PATH : "";
 console.log(urlpath);
 
 function userReducer(state, action) {
@@ -53,7 +53,7 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, registerUser, addDonationEntry, updateDonation, updateUser, signOut, updateNotificationReadStatus };
+export { UserProvider, useUserState, useUserDispatch, loginUser, registerUser, addDonationEntry, updateDonation, updateAcceptReject, updateUser, signOut, updateNotificationReadStatus, updateProfile };
 
 // ###########################################################
 
@@ -88,6 +88,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
         localStorage.setItem("usergroup", response[0]['usergroup']);
         localStorage.setItem("userid", response[0]['userid']);
         localStorage.setItem("location", response[0]['location']);
+        localStorage.setItem("locationdescription", response[0]['locationdescription']);
         dispatch({ type: "LOGIN_SUCCESS" });
         setError(null);
         setIsLoading(false);
@@ -137,6 +138,7 @@ function registerUser(dispatch, login, password, name, history, setIsLoading, se
   .catch(err => console.error(err))  
 
 }
+
 
 
 
@@ -233,9 +235,53 @@ function updateDonation(rowData, newValue, toUpdate) {
 
 }
 
+function updateAcceptReject(donationid, status, datereceived) {
+  console.log(status);
+  console.log(donationid);
+   
+  var receivedby = localStorage.getItem("userid");
+  // var datereceived = rowData[9];
+  //  var deleted = rowData[5];
+   
+   switch (status.toLowerCase()){
+     case 'available':
+       status = 'Reserved';
+       datereceived = new Date();
+       break;
+     case 'reserved':
+      status = 'Available';
+      receivedby = null;
+      datereceived = null;
+       break;
+     default:
+       break;
+   }
+ 
+   fetch(`${urlpath}/api/updateAcceptReject`,{
+     method: 'POST',
+     headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({
+       donationid: donationid,
+       receivedby: receivedby,
+       status: status,
+       datereceived: datereceived
+     })
+   })
+   .then(response => response.json())
+   .then(function(response){
+     console.log("Updated Accept/Reject");
+     
+   })
+   .catch(err => console.error(err))  
+ 
+ }
+
 function updateUser(rowData, newValue, toUpdate) {
-  console.log(newValue);
-  console.log(rowData);
+  // console.log(newValue);
+  // console.log(rowData);
   var usergroup = rowData[2];
   var locked = rowData[7];
   var active = rowData[8];
@@ -285,6 +331,41 @@ function updateUser(rowData, newValue, toUpdate) {
    })
    .catch(err => console.error(err))  
  
+ }
+
+function updateProfile (name,email,mobilephone,usergroup){
+  console.log(name + email);
+
+  fetch(`${urlpath}/api/updateUser`,{
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      userid: localStorage.getItem("userid"),
+      modifiedby: localStorage.getItem("userid"),
+      usergroup: usergroup,
+      email: email,
+      mobilephone: mobilephone,
+      name: name,
+      // active: true,
+      // locked: false,
+      // trials: 0,
+      // location: ''
+    })
+  })
+  .then(response => response.json())
+  .then(function(response){
+    console.log("Updated users");
+    if (response){
+      localStorage.setItem("fullname", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("mobilephone", mobilephone);
+      localStorage.setItem("usergroup", usergroup);
+    }
+  })
+  .catch(err => console.error(err))  
  }
 
 

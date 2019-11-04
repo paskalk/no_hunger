@@ -63,11 +63,15 @@ export default function Header(props) {
   // });
 
 
-  useEffect(async() => {
+  useEffect(() => {
     var urlpath = process.env.NODE_ENV == "development" ? process.env.REACT_APP_URL_PATH : "";
+    async function fetchData(){
       fetch(`${urlpath}/api/notifications/${localStorage.getItem("userid")}`)
-    .then(response => response.json())
-    .then(response => setNotifications(response))
+      .then(response => response.json())
+      .then(response => setNotifications(response))
+    };
+    fetchData();
+     
 
   }, []);
 

@@ -70,16 +70,16 @@ export default function Widget({
         disableAutoFocusItem
       >
         <MenuItem>
-          <Typography>Edit</Typography>
+          <Typography>All Time</Typography>
         </MenuItem>
         <MenuItem>
-          <Typography>Copy</Typography>
+          <Typography>Today</Typography>
         </MenuItem>
         <MenuItem>
-          <Typography>Delete</Typography>
+          <Typography>Past Week</Typography>
         </MenuItem>
         <MenuItem>
-          <Typography>Print</Typography>
+          <Typography>Past Month</Typography>
         </MenuItem>
       </Menu>
     </div>
