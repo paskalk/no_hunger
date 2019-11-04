@@ -42,7 +42,6 @@
     "heroku_no_build": "nodemon serve.js",
     "server": "node server.js"
   },
-  "homepage": ".",
   "eslintConfig": {
     "extends": "react-app"
   },
