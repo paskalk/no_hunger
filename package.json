@@ -37,7 +37,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku": "concurrently \"npm run start\" \"nodemon api.js\" ",
+    "heroku": "concurrently \"npm run build\" \"nodemon api.js\" ",
+    "heroku_no_db": "concurrently \"npm run build\" \"nodemon serve.js\" ",
     "server": "nodemon api.js"
   },
   "eslintConfig": {

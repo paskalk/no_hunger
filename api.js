@@ -1,4 +1,5 @@
 var app = require('express')();
+const path = require('path');
 var conn = require("./backend/db");
 var bodyParser = require('body-parser');
 var cors = require('cors')
@@ -11,8 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
-// app.get("*", function(req, res){
-// });
+
 
 //Pull all notifications
 app.get("/api/notifications/:userid", function(req, res){    
@@ -216,6 +216,10 @@ app.get("/api/getChartData/:type/:usergroup/:userid/:datefrom/:dateto", function
     // var query = `select donationid, foodtype, quantity, locationdescription, location, status, case  when (deleted = true) then 'Yes' else 'No' end as deleted, dateadded, datereceived, donatedby, receivedby from tbdonations where 1= 1 ` + filter;
     var query = query + filter + groupBy;
     executePostsgresQuery(query, res);
+});
+
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // console.log( getDate());
