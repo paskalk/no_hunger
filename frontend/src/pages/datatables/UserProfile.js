@@ -9,6 +9,14 @@ import {updateUser} from "../../context/UserContext";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import {FormControl, InputLabel, Input, FormHelperText, withStyles, Grid} from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
 
 const styles = theme => ({
@@ -17,10 +25,8 @@ const styles = theme => ({
         flexWrap: 'wrap'
     },
     formControl: {
-        margin: theme.spacing.unit,
-        minWidth: 520
     }
-})
+});
 
 
 class UserProfile extends React.Component {
@@ -44,57 +50,110 @@ class UserProfile extends React.Component {
         console.log('You clicked submit button');
     };
 
+    handleOnChange = (e) => {
+        console.log(e.target.id);
+    }
+
     render() {
         const {classes} = this.props;
 
         return (
-            <Card className={'card'}>
-                <CardContent>
+
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Typography component="h1" variant="h5">
+                        User Profile
+                        <br/>
+                        <br/>
+                        <br/>
+                    </Typography>
+                    <form className={classes.form} noValidate>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label="Name"
+                                    name="name"
+                                    autoComplete="name"
+                                    onChange={this.handleOnChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="mobile"
+                                    label="Mobile"
+                                    type="mobile"
+                                    id="mobile"
+                                    autoComplete="mobile"
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    multiline
+                                    rows={5}
+                                    name="address"
+                                    label="Address"
+                                    type="address"
+                                    id="address"
+                                    autoComplete="address"
+                                />
+                            </Grid>
 
 
-                    <Grid
-                        container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justify="center"
-                        style={{minHeight: '100vh'}}
-                    >
-
-                        <Grid item xs={3}>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel htmlFor="name">Name</InputLabel>
-                                <Input id="name" aria-describedby="name-helper-text"/>
-                                <FormHelperText id="name-helper-text">Your full name</FormHelperText>
-
-                                <InputLabel htmlFor="email">Email address</InputLabel>
-                                <Input id="email" aria-describedby="email-helper-text"/>
-                                <FormHelperText id="email-helper-text">We'll never share your email.</FormHelperText>
-
-                                <InputLabel htmlFor="password">Password</InputLabel>
-                                <Input id="password" aria-describedby="password-helper-text"/>
-                                <FormHelperText id="password-helper-text">Your password.</FormHelperText>
-
-                                <InputLabel htmlFor="mobile">Your mobile</InputLabel>
-                                <Input id="mobile" aria-describedby="mobile-helper-text"/>
-                                <FormHelperText id="mobile-helper-text">We'll never share your email.</FormHelperText>
-
-                                <InputLabel htmlFor="address">Address</InputLabel>
-                                <Input id="address" aria-describedby="address-helper-text"/>
-                                <FormHelperText id="address-helper-text">Please fill your address.</FormHelperText>
-
-
-                                <Button variant="contained" color="primary" className={'primary'}>
-                                    Submit
-                                </Button>
-
-                            </FormControl>
                         </Grid>
 
-                    </Grid>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Update
+                        </Button>
+                    </form>
+                </div>
+                <Box mt={5}>
+                </Box>
+            </Container>
 
-                </CardContent>
-            </Card>
         )
     }
 }
