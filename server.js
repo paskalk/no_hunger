@@ -15,12 +15,40 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
+app.get('/icon-144x144.png', function(req, res) {
+    console.log('Passed Here 144');
+    res.sendFile(path.join(__dirname, 'build', 'icon-144x144.png'));
+});
+
+
+
+app.get('/icon-192x192.png', function(req, res) {
+    console.log('Passed Here 192');
+    res.sendFile(path.join(__dirname, 'build', 'icon-512x512.png'));
+});
+
+
+app.use("/img", express.static(path.join(__dirname, 'build/images/icons')));
+
 app.use("/", express.static(path.join(__dirname, 'build')));
+
+app.get('/icon-512x512.png', function(req, res) {
+    console.log('Passed Here 512');
+    res.sendFile(path.join(__dirname, 'build', 'icon-512x512.png'));
+});
+
+
 // app.use('/image', express.static(__dirname + "/image"));
 // app.get('/', function(req, res) {
 //     // app.use(express.static(__dirname + '/build'));
 //     console.log('Passed Here');
 //     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
+
+// app.get('/icon-144x144.png', function(req, res) {
+//     // app.use(express.static(__dirname + '/build'));
+//     console.log('Passed Here');
+//     // res.sendFile(path.join(__dirname, 'build', 'index.html'));
 // });
 
 //Pull all notifications
