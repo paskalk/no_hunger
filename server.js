@@ -15,12 +15,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use("/", express.static(path.join(__dirname, 'build')));
+
 // app.use('/image', express.static(__dirname + "/image"));
-app.get('/', function(req, res) {
-    // app.use(express.static(__dirname + '/build'));
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.get('/', function(req, res) {
+//     // app.use(express.static(__dirname + '/build'));
+//     console.log('Passed Here');
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 //Pull all notifications
 app.get("/api/notifications/:userid", function(req, res){
@@ -139,7 +141,7 @@ app.post("/api/updateAcceptReject", function(req, res){
 });
 
 var insertToDatabase = function(req, res){
-    console.log(req);
+    // console.log(req);
     conn.query(req['text'], req['values'])
     .then(results => {
         res.end(JSON.stringify(results.rowCount));
@@ -157,7 +159,7 @@ var executePostsgresQuery  = function(req, res){
             console.log(error);
         }
         res.header("Access-Control-Allow-Origin", "*");
-        console.log(req);
+        // console.log(req);
         return res.json(results.rows);
     })
 }
