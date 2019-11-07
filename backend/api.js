@@ -5,7 +5,7 @@ var cors = require('cors')
 
 const port = process.env.PORT || 3030;
 
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
@@ -15,7 +15,7 @@ app.options('*', cors());
 // });
 
 //Pull all notifications
-app.get("/api/notifications/:userid", function(req, res){    
+app.get("/api/notifications/:userid", function(req, res){
     var query = `select * from tbnotifications where read = false and notificationto = '${req.params.userid}' limit 4`;
     executePostsgresQuery(query, res);
 });
@@ -58,8 +58,8 @@ app.post("/api/userCreate", function(req, res){
     var query = {
         text: 'Insert into tbusers (email,password,fullname,trials,locked,active) VALUES($1, $2, $3, $4, $5, $6)',
         values: [
-            req.body['email'], 
-            req.body['password'], 
+            req.body['email'],
+            req.body['password'],
             req.body['name'],
             // req.body['location'],
             // req.body['locationdescription'],
@@ -99,7 +99,7 @@ app.get("/api/getDonations/:usergroup/:userid", function(req, res){
     switch(req.params.usergroup){
         case 'admin':
         case 'super':
-            
+
             break;
         case 'donor':
             filter = ` and donatedby = ${req.params.userid}`;
@@ -115,8 +115,8 @@ app.get("/api/getDonations/:usergroup/:userid", function(req, res){
 });
 
 //Get donations that are active and ready to be accepted
-app.get("/api/getActiveDonations/:userid", function(req, res){  
-    var query = `select donationid, foodtype, quantity, locationdescription, location, split_part(locationdescription, ',',1) as shortlocation, status, case  when (deleted = true) then 'Yes' else 'No' end as deleted, dateadded, datereceived, donatedby, receivedby, status as acceptreject  from tbdonations where status in ('Available','Reserved') and deleted = false and donatedby <> ${req.params.userid} `;// + filter;
+app.get("/api/getActiveDonations/:userid", function(req, res){
+    var query = `select donationid, foodtype, quantity, locationdescription, location, split_part(locationdescription, ',',1) as shortlocation, status, case  when (deleted = true) then 'Yes' else 'No' end as deleted, dateadded, datereceived, donatedby, receivedby, status as acceptreject  from tbdonations where status in ('Available','Reserved', 'Accepted', 'Rejected') and deleted = false and donatedby <> ${req.params.userid} ORDER BY donationid DESC`;// + filter;
     executePostsgresQuery(query, res);
 });
 
@@ -200,7 +200,7 @@ app.get("/api/getChartData/:type/:usergroup/:userid/:datefrom/:dateto", function
     switch(req.params.usergroup){
         case 'admin':
         case 'super':
-            
+
             break;
         case 'donor':
             filter = ` and donatedby = ${req.params.userid}`;
@@ -222,6 +222,6 @@ app.get("/api/getChartData/:type/:usergroup/:userid/:datefrom/:dateto", function
 // console.log( Date.parse('Sun Nov 03 2019 18:39:32 GMT+0100 (Central European Standard Time)'));
 
 // console.log(sha3_256('1234'));
-
-app.listen(port); 
+console.log('Running on port ' + port);
+app.listen(port);
 
