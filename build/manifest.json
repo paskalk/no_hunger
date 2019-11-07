@@ -1,7 +1,7 @@
 {
   "short_name": "FoodShare",
   "name": "FoodShare: No Waste",
-  "Scope": "/",
+  "Scope": ".",
   "icons": [
     {
       "src": "icon-72x72.png",
@@ -9,14 +9,14 @@
       "type": "image/png"
     },
     {
-      "src": "icon-96x96.png",
+      "src": "./2.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
+      "src": "1.png",
+      "type": "image/png",
+      "sizes": "128x128"      
     },
     {
       "src": "icon-144x144.png",
