@@ -16,6 +16,7 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(express.static(path.join(__dirname, 'build')));
+// app.use('/image', express.static(__dirname + "/image"));
 app.get('/', function(req, res) {
     // app.use(express.static(__dirname + '/build'));
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
