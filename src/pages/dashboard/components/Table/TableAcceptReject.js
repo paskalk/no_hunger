@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 
 // components
-import { Button } from "../../../../components/Wrappers";
+import {Button} from "../../../../components/Wrappers";
 
 const states = {
     collected: "success",
@@ -17,11 +17,11 @@ const states = {
     rejected: "danger",
 };
 
-export default function TableComponent({ data }) {
+export default function TableAcceptReject({data, changeDonationStatus}) {
     var keys = Object.keys(data[0]).map(i => i.toUpperCase());
     keys.shift(); // delete "id" key
 
-    const columnsToShow = [ 'foodtype', 'quantity', 'datereceived', 'donatedby', 'receivedby', 'status', 'action' ];
+    const columnsToShow = ['foodtype', 'quantity', 'datereceived', 'donatedby', 'receivedby', 'status', 'action'];
 
     return (
         <Table className="mb-0">
@@ -33,7 +33,7 @@ export default function TableComponent({ data }) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {data.map(({ donationid, foodtype, quantity, datereceived, donatedby, receivedby, status }) => (
+                {data.map(({donationid, foodtype, quantity, datereceived, donatedby, receivedby, status}) => (
                     <TableRow key={donationid}>
                         <TableCell className="pl-3 fw-normal">{foodtype}</TableCell>
                         <TableCell>{quantity}</TableCell>
@@ -47,6 +47,7 @@ export default function TableComponent({ data }) {
                                 size="small"
                                 className="px-2"
                                 variant="contained"
+                                onClick={() => changeDonationStatus(donationid, receivedby, datereceived, 'Accepted')}
                             >
                                 {'Accept'}
                             </Button>
@@ -56,6 +57,7 @@ export default function TableComponent({ data }) {
                                 size="small"
                                 className="px-2"
                                 variant="contained"
+                                onClick={() => changeDonationStatus(donationid, receivedby, datereceived, 'Rejected')}
                             >
                                 {'Reject'}
                             </Button>
