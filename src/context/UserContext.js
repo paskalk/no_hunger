@@ -7,7 +7,7 @@ var UserDispatchContext = React.createContext();
 // console.log(process.env.REACT_APP_URL_PATH);
 // console.log(process.env);
 var urlpath = process.env.NODE_ENV === "development" ? process.env.REACT_APP_URL_PATH : "";
-console.log(urlpath);
+// console.log(urlpath);
 
 function userReducer(state, action) {
   switch (action.type) {
@@ -66,12 +66,12 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
   // localStorage.setItem("id_token", "1");
   // localStorage.setItem("namex", "Fake Ninja");
   // window.sessionStorage.setItem("names", "Long ninja");
-  console.log("sending request");
+  // console.log("sending request");
 
   fetch(`${urlpath}/api/user/${login}/${password}`)
   .then(response => response.json())
   .then(function(response){
-    console.log(response[0]);
+    // console.log(response[0]);
 
     if (response[0]){      
         //Too many trials
@@ -163,6 +163,11 @@ function updateNotificationReadStatus(notificationid){
 
 function addDonationEntry(weight, foodtype, location, latitude, longitude) {
   // console.log("Trying to Add Donation from user context");
+  var gps = latitude+","+longitude;
+
+  if (gps === ","){
+     gps = ""; //location/;
+  }
 
   fetch(`${urlpath}/api/addDonation`,{
     method: 'POST',
@@ -175,7 +180,7 @@ function addDonationEntry(weight, foodtype, location, latitude, longitude) {
       quantity: weight,
       locationdescription: location,
       donatedby: localStorage.getItem("userid"),
-      location: (latitude+","+longitude)
+      location: gps
     })
   })
   .then(response => response.json())
@@ -189,14 +194,22 @@ function addDonationEntry(weight, foodtype, location, latitude, longitude) {
 
 function updateDonation(rowData, newValue, toUpdate) {
  console.log(newValue);
+ console.log(rowData);
   
   var foodtype = rowData[2];
-  var status = rowData[4];
-  var deleted = rowData[5];
+  var status = rowData[5];
+  var deleted = rowData[6];
+
+  
 
   switch (toUpdate){
     case 'status':
-      status = newValue;
+      status = status === "Collected" ?  status : newValue;
+      // if (status === "Collected" && localStorage.getItem("usergroup") == "Donor"){
+      //   if (status === "Collected"){
+      //   // status =rowData[5];
+      //   // console.log("Can't update if reserved
+      // }
       break;
     case 'deleted':
       deleted = newValue === "Yes" ? 1 : 0;
@@ -218,7 +231,7 @@ function updateDonation(rowData, newValue, toUpdate) {
       donationid: rowData[0],
       foodtype: foodtype,
       status: status,
-      deleted: deleted,
+      deleted: deleted
       
       // quantity: '',
       // locationdescription: '',
@@ -242,40 +255,46 @@ function updateAcceptReject(donationid, status, datereceived) {
   var receivedby = localStorage.getItem("userid");
   // var datereceived = rowData[9];
   //  var deleted = rowData[5];
-   
-   switch (status.toLowerCase()){
-     case 'available':
-       status = 'Reserved';
-       datereceived = new Date();
-       break;
-     case 'reserved':
-      status = 'Available';
-      receivedby = null;
-      datereceived = null;
-       break;
-     default:
-       break;
-   }
- 
-   fetch(`${urlpath}/api/updateAcceptReject`,{
-     method: 'POST',
-     headers: {
-       'Accept': 'application/json',
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       donationid: donationid,
-       receivedby: receivedby,
-       status: status,
-       datereceived: datereceived
-     })
-   })
-   .then(response => response.json())
-   .then(function(response){
-     console.log("Updated Accept/Reject");
-     
-   })
-   .catch(err => console.error(err))  
+
+  if (typeof status === 'undefined') {
+    // color is undefined
+    console.log("Caught undef");
+  } else {
+    
+    switch (status.toLowerCase()){
+      case 'available':
+        status = 'Reserved';
+        datereceived = new Date();
+        break;
+      case 'reserved':
+        status = 'Available';
+        receivedby = null;
+        datereceived = null;
+        break;
+      default:
+        break;
+    }
+  
+    fetch(`${urlpath}/api/updateAcceptReject`,{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        donationid: donationid,
+        receivedby: receivedby,
+        status: status,
+        datereceived: datereceived
+      })
+    })
+    .then(response => response.json())
+    .then(function(response){
+      console.log("Updated Accept/Reject");
+      
+    })
+    .catch(err => console.error(err))  
+  }
  
  }
 

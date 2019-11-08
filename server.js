@@ -89,16 +89,18 @@ app.post("/api/addDonation", function(req, res){
         text: 'Insert into tbdonations (foodtype,quantity,location,locationdescription,donatedby,status) VALUES($1, $2, $3, $4, $5, $6)',
         values: [  req.body['foodtype'], req.body['quantity'],  req.body['location'], req.body['locationdescription'], req.body['donatedby'], 'Available'],
     }
+    
     insertToDatabase(query, res);
 });
 
 //Update an existing donation entry eg if someone accepts the donation
 app.post("/api/updateDonation", function(req, res){
-    console.log(req.body);
+    // console.log(req.body);
     var query = {
         text: 'Update tbdonations set deleted = $1, foodtype =$2, status = $3 where donationid = $4',
         values: [req.body['deleted'], req.body['foodtype'], req.body['status'], req.body['donationid']],
     }
+
     insertToDatabase(query, res);
 });
 

@@ -17,7 +17,8 @@ import {
   MenuItem,
   FormControl,
   InputAdornment,
-  TextField
+  TextField,
+  Container
   // Fade,
 } from "@material-ui/core";
 
@@ -60,15 +61,16 @@ export default function AddDonation() {
   //  }
 
   return (
-    <Grid container className={classes.container}>
-      <div className={classes.formContainer}>
-        <div className={classes.form}>
+    <Container component="main" maxWidth="xs">
+      {/* <div className={classes.formContainer}> */}
+      <div className={classes.paper}>
+        {/* <div className={classes.form}> */}
           <PageTitle 
             title="Add Donation" 
             // button="Latest Reports" 
           />
-          <React.Fragment>
-            
+          {/* <React.Fragment> */}
+          <form className={classes.form} noValidate>
             {/* <TextField
               id="foodType"
               label="Food "
@@ -82,48 +84,54 @@ export default function AddDonation() {
               variant="outlined"
               fullWidth
             /> */}
-            <FormControl variant="outlined" className={classes.formControl} fullWidth>
-              <InputLabel ref={inputLabel} htmlFor="SelectFoodType">
-                Food Type
-              </InputLabel>
-              <Select
-                value={foodTypeValue}
-                onChange={e => setFoodTypeValue(e.target.value)}
-                labelWidth={labelWidth}
-                inputProps={{
-                  name: 'Food Type',
-                  id: 'SelectFoodType',
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <FormControl variant="outlined" className={classes.formControl} fullWidth>
+              
+                <InputLabel ref={inputLabel} htmlFor="SelectFoodType">
+                  Food Type
+                </InputLabel>
+                <Select
+                  value={foodTypeValue}
+                  onChange={e => setFoodTypeValue(e.target.value)}
+                  labelWidth={labelWidth}
+                  inputProps={{
+                    name: 'Food Type',
+                    id: 'SelectFoodType',
+                  }}
+                  
+                >
+                  <MenuItem value={'Mixed'}>Mixed</MenuItem>
+                  <MenuItem value={'Vegetarian'}>Vegetarian</MenuItem>
+                  <MenuItem value={'Vegan'}>Vegan</MenuItem>
+                  
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                id="outlined-adornment-weight"
+                className={clsx(classes.margin, classes.textField)}
+                variant="outlined"
+                label="Weight"
+                value={weightValue}
+                onChange={e => setWeightValue(e.target.value)}
+                // onChange={handleChange('weight')}
+                // helperText="Weight"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
                 }}
-                
-              >
-                <MenuItem value={'Mixed'}>Mixed</MenuItem>
-                <MenuItem value={'Vegetarian'}>Vegetarian</MenuItem>
-                <MenuItem value={'Vegan'}>Vegan</MenuItem>
-                
-              </Select>
-            </FormControl>
-            <TextField
-              id="outlined-adornment-weight"
-              className={clsx(classes.margin, classes.textField)}
-              variant="outlined"
-              label="Weight"
-              value={weightValue}
-              onChange={e => setWeightValue(e.target.value)}
-              // onChange={handleChange('weight')}
-              // helperText="Weight"
-              InputProps={{
-                endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
-              }}
-              fullWidth
-              required
-            />
-            
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
             <TextField
                 id="locationDescription"
                 label="Location"
                 value={userAddress}
                 onChange={e => setUserAddress(e.target.value)}
-                className={useStyles.textField}
+                className={clsx(classes.margin, classes.textField)}
                 type="text"
                 name="locationDescription"
                 autoComplete="locationDescription"
@@ -131,7 +139,9 @@ export default function AddDonation() {
                 variant="outlined"
                 fullWidth
             />
-            <div className={classes.creatingButtonContainer}>
+            </Grid>
+          </Grid>
+            {/* <div className={classes.creatingButtonContainer}> */}
               <Button
                 onClick={() => {
                   addDonationEntry(
@@ -144,22 +154,25 @@ export default function AddDonation() {
                   );
                   setWeightValue('');
                   setFoodTypeValue('');
+                  
                 }
                 }
                 variant="contained"
                 color="primary"
                 size="large"
-                className={classes.button}
+                className={classes.submit}
+                // className={classes.button}
                 startIcon={<SaveIcon />}
                 fullWidth
               >
                 Save
               </Button>
-            </div>
-            </React.Fragment>
-          </div>
+            {/* </div> */}
+            {/* </React.Fragment> */}
+            </form>
+          {/* </div> */}
         </div>
-    </Grid>
+    </Container>
   );
 
 
@@ -177,6 +190,10 @@ function getCoordinates(position){
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
     // })
+// console.log(position.coords.latitude);
+// console.log(position.coords.longitude);
+// console.log(position.coords);
+
     reverseGeocodeCoordinates();
 }
 

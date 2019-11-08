@@ -26,10 +26,3 @@ yarn.lock
 .scratch
 
 .env
-/backend
-/frontend
-/public
-/src
-
-
-pjson.txt
